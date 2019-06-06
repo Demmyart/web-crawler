@@ -1,0 +1,28 @@
+<form class="example-form">
+        <mat-form-field class="example-full-width">
+          <input matInput type="url" placeholder="https://example.com" [formControl]="urlFormControl">
+        </mat-form-field>
+      </form>
+      <button mat-raised-button color="primary" (click)="addInstance()">Add new URL</button>
+
+<mat-divider></mat-divider>
+<button mat-raised-button color="warn" (click)='deleteInstance()'>Delete selected</button>
+
+<mat-divider></mat-divider>
+
+<mat-expansion-panel (click)="getURLs()">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Database
+          </mat-panel-title>
+          <mat-panel-description>
+            Select to remove or add instances
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <mat-selection-list #urls>
+                <mat-list-option *ngFor="let url of listUrl;let i = index;" (click)='selectURL(url)'>
+                        {{url.url}}
+                      </mat-list-option>
+              </mat-selection-list>
+      </mat-expansion-panel>
+<mat-divider></mat-divider>

@@ -1,0 +1,76 @@
+###========= SITES =========###
+
+### Get request with a header
+GET http://127.0.0.1:8080/site/list
+Accept: application/json
+# RESULT:
+[
+  {
+    "id": 1,
+    "url": "https:\/\/forum.xda-developers.com\/honor-8x\/development\/debranding-rebranding-honor-8x-to-t3904842",
+    "restrictByUrl": "https:\/\/forum.xda-developers.com\/honor-8x\/development\/debranding-rebranding-honor-8x-to-t3904842"
+  }
+]
+
+###CREATING A SITE
+POST http://127.0.0.1:8080/site/create
+Content-Type: application/x-www-form-urlencoded
+
+url=https://forum.xda-developers.com/honor-8x/development/debranding-rebranding-honor-8x-to-t3904842
+
+{
+  "id": 1,
+  "url": "https:\/\/forum.xda-developers.com\/honor-8x\/development\/debranding-rebranding-honor-8x-to-t3904842",
+  "restrictByUrl": "https:\/\/forum.xda-developers.com\/honor-8x\/development\/debranding-rebranding-honor-8x-to-t3904842"
+}
+
+###========= SEARCH =========###
+### CREATE A REQUEST TO SEARCH
+POST http://127.0.0.1:8080/search/create
+Content-Type: application/x-www-form-urlencoded
+
+sites[]=1&band=superband&email=myname@example.com&username=MiyuChandria&depth=10
+
+{
+  "id": 1,
+  "username": "MiyuChandria",
+  "email": "myname@example.com",
+  "band": "superband",
+  "depth": null,
+  "sites": [
+    {
+      "id": 1,
+      "url": "https:\/\/forum.xda-developers.com\/honor-8x\/development\/debranding-rebranding-honor-8x-to-t3904842",
+      "restrictByUrl": null
+    }
+  ],
+  "finishedUrlsCounter": 0
+}
+
+
+### GET RESULTS FOR SEARCH REQUEST 2
+GET http://127.0.0.1:8080/search/1
+
+{
+  "isFinished": true,
+  "grabResults": [
+    {
+      "id": 35,
+      "context": "-onlinestatus-offline&quot; title=&quot;MiyuChandria is offline&quot;&gt;&lt;\/i&gt;\n&lt;a class=&quot;bi",
+      "url": "https:\/\/forum.xda-developers.com\/honor-8x\/development\/debranding-rebranding-honor-8x-to-t3904842\/page2",
+      "grabInfo": null
+    },
+    {
+      "id": 36,
+      "context": "bcb41cf1121a42&amp;amp;u=8237178&quot;&gt;MiyuChandria&lt;\/a&gt;\n\n&lt;div class=&quot;xda-popup po",
+      "url": "https:\/\/forum.xda-developers.com\/honor-8x\/development\/debranding-rebranding-honor-8x-to-t3904842\/page2",
+      "grabInfo": null
+    },
+    {
+      "id": 37,
+      "context": "\nOriginally Posted by &lt;strong&gt;MiyuChandria&lt;\/strong&gt;\n&lt;a href=&quot;\/honor-8x\/d",
+      "url": "https:\/\/forum.xda-developers.com\/honor-8x\/development\/debranding-rebranding-honor-8x-to-t3904842\/page3",
+      "grabInfo": null
+    }
+  ]
+}

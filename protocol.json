@@ -1,0 +1,9 @@
+{
+  "url": "/search/",
+  "method": "get",
+  "params": {
+    "nickname": "%nickname%",
+    "band": "%band%",
+    "email": "%email%"
+  }
+}

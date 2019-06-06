@@ -1,0 +1,102 @@
+<div class='crawler'>
+  <!-- <button mat-raised-button (click)="isLinear = !isLinear" id="toggle-linear">
+    {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}} -->
+  <!-- </button> -->
+  <mat-horizontal-stepper labelPosition="bottom" #stepper>
+
+    <mat-step [stepControl]="firstFormGroup">
+      <form [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>Target of search</ng-template>
+        <mat-form-field>
+          <mat-label>What to search</mat-label>
+        
+          <mat-select [formControl]="targetControl" required>
+            <mat-option>--</mat-option>
+            <mat-option *ngFor="let targetType of targetTypes" [value]="targetType">
+              {{targetType.name}}
+            </mat-option>
+          </mat-select>
+          <!-- <mat-error *ngIf="targetControl.hasError('required')">Please select a target</mat-error> -->
+        </mat-form-field>
+        <div>
+          <button mat-raised-button color="primary" matStepperNext type="button">Next</button>
+        </div>
+
+      </form>
+    </mat-step>
+
+    <mat-step [stepControl]="secondFormGroup">
+      <form [formGroup]="secondFormGroup">
+        <ng-template matStepLabel>Fill out the keywords</ng-template>
+        <mat-form-field>
+          <input matInput placeholder="Type..." [formControl]="keywordControl" required>
+        </mat-form-field>
+        <div>
+          <button mat-raised-button matStepperPrevious>Back</button>
+          <button mat-raised-button color="primary" matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <mat-step>
+      <ng-template matStepLabel>Choose the URL from database</ng-template>
+      <mat-expansion-panel (click)="getURLs()">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Show available urls
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-selection-list #urls>
+          <mat-list-option *ngFor="let url of listUrl;let i = index;" (click)='selectURL(url)'>
+            {{url.url}}
+          </mat-list-option>
+        </mat-selection-list>
+      </mat-expansion-panel>
+
+      <div>
+        <button mat-raised-button matStepperPrevious>Back</button>
+        <button mat-raised-button color="primary" matStepperNext>Next</button>
+      </div>
+
+    </mat-step>
+
+    <mat-step>
+      <ng-template matStepLabel>Depth of crawling</ng-template>
+      <mat-form-field>
+          <input matInput type="number" min="0" placeholder="Type..." [formControl]="depthControl" required>
+        </mat-form-field>
+      <div>
+        <button mat-raised-button matStepperPrevious>Back</button>
+        <button mat-raised-button color="primary" (click)='sendRequest()'>Done</button>
+        <button mat-raised-button color="warn" (click)="stepper.reset()">Reset</button>
+
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+  <mat-divider></mat-divider>
+
+  <div class="cs-loader" *ngIf="isLoading">
+      <div class="cs-loader-inner">
+        <label>	●</label>
+        <label>	●</label>
+        <label>	●</label>
+        <label>	●</label>
+        <label>	●</label>
+        <label>	●</label>
+      </div>
+    </div>
+
+  <mat-divider></mat-divider>
+
+  <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Show results
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-list dense>
+      <mat-list-item *ngFor="let url of results;let i = index;"> <a href='{{url.url}}' target="_blank">{{url.url}}</a> </mat-list-item>
+     </mat-list>
+    </mat-expansion-panel>
+
+</div>

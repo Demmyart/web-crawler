@@ -1,0 +1,85 @@
+version: "3.7"
+services:
+  ccf-nginx:
+    image: nginx:1.15.12
+    volumes:
+      - ./backend:/var/www/ccf-project
+      - ./nginx-site.conf:/etc/nginx/conf.d/default.conf
+      - ./frontend:/var/www/front
+    depends_on:
+      - "ccf-php"
+    ports:
+      - "8080:80"
+      - "4200:4200"
+    networks:
+      - backend
+    deploy:
+      restart_policy:
+        condition: always
+        delay: 5s
+        max_attempts: 10
+        window: 120s
+  ccf-php:
+    networks:
+      - backend
+    depends_on:
+      - "ccf-rabbitmq"
+      - "ccf-db"
+    volumes:
+      - ./backend:/var/www/ccf-project
+    build:
+      context: ./
+      dockerfile: php.dockerfile
+    deploy:
+      restart_policy:
+        condition: on-failure
+  ccf-php-worker:
+    networks:
+      - backend
+    depends_on:
+      - "ccf-rabbitmq"
+      - "ccf-db"
+    volumes:
+      - ./backend:/var/www/ccf-project
+    build:
+      context: ./
+      dockerfile: php-worker.dockerfile
+    deploy:
+      restart_policy:
+        condition: always
+        delay: 5s
+        max_attempts: 10
+        window: 120s
+  ccf-rabbitmq:
+    image: rabbitmq:3.7.14
+    environment:
+      RABBITMQ_DEFAULT_USER: ccfproject
+      RABBITMQ_DEFAULT_PASS: ccfprojectpswrdd
+    ports:
+      - "5672"
+    networks:
+      - backend
+    deploy:
+      restart_policy:
+        condition: always
+        delay: 5s
+        max_attempts: 10
+        window: 120s
+  ccf-db:
+    image: postgres:11.3
+    ports:
+        - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - backend
+    environment:
+      POSTGRES_USER: ccfproject
+      POSTGRES_DB: ccfproject
+      POSTGRES_PASSWORD: someveryhardpassword
+networks:
+  frontend:
+  backend:
+
+volumes:
+  db-data:

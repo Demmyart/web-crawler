@@ -1,0 +1,21 @@
+<div class='wrapper'>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>sort</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <!-- <button mat-menu-item  [disabled]="clicked1" (click)="this.menuItem = true; clicked2 = false; clicked1 = true;"> -->
+          <button mat-menu-item routerLink='/crawling'>
+          <mat-icon>send</mat-icon>
+          <span>Start crawling</span>
+        </button>
+        <!-- <button mat-menu-item [disabled]="clicked2" (click)="this.menuItem = false; clicked1 = false; clicked2 = true;"> -->
+            <button mat-menu-item routerLink='/database'> 
+            <mat-icon>create_new_folder</mat-icon>
+            <span>Maintain database</span>
+          </button>
+      </mat-menu>
+      
+  <mat-divider></mat-divider>
+
+  <router-outlet></router-outlet>
+</div>
